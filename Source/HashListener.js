@@ -20,7 +20,7 @@ provides: [HashListener]
 
 var HashListener = new Class({
 
-    Implements: [Options,Events],
+    Implements: [Options, Events],
 
     options: {
         blank_page: 'blank.html',
@@ -36,7 +36,7 @@ var HashListener = new Class({
     handle: false,
 
     useIframe: (Browser.Engine.trident && (
-            typeof(document.documentMode)=='undefined' ||
+            typeof(document.documentMode) == 'undefined' ||
             document.documentMode < 8)
     ),
 
@@ -44,7 +44,7 @@ var HashListener = new Class({
 
 
     initialize: function (options) {
-        var self=this;
+        var self = this;
 
         this.setOptions(options);
 
@@ -64,7 +64,7 @@ var HashListener = new Class({
                 if (hash == self.currentHash) {
                     return;
                 }
-                self.fireEvent('hash-changed',hash);
+                self.fireEvent('hash-changed', hash);
             };
         } else if (this.useIframe) {
             this.initializeHistoryIframe();
@@ -129,14 +129,14 @@ var HashListener = new Class({
 
         this.currentLocation = hash;
 
-        this.fireEvent('hash-changed',hash);
+        this.fireEvent('hash-changed', hash);
     },
 
 
     setHash: function (newHash) {
         window.location.hash = this.currentLocation = newHash;
 
-        this.fireEvent('hash-changed',newHash);
+        this.fireEvent('hash-changed', newHash);
     },
 
 
@@ -178,8 +178,11 @@ var HashListener = new Class({
 
         this.ignoreLocationChange = true;
 
-        if (this.useIframe) this.setIframeHash(newHash);
-        else this.setHash(newHash);
+        if (this.useIframe) {
+            this.setIframeHash(newHash);
+        } else {
+            this.setHash(newHash);
+        }
     },
 
 
