@@ -36,7 +36,7 @@ var HashListener = new Class({
     handle: false,
 
     useIframe: (Browser.Engine.trident && (
-            typeof(document.documentMode) == 'undefined' ||
+            typeof(document.documentMode) === 'undefined' ||
             document.documentMode < 8)
     ),
 
@@ -56,12 +56,12 @@ var HashListener = new Class({
 
         // IE8 in IE7 mode defines window.onhashchange, but never fires it...
         if (window.onhashchange && (
-                typeof(document.documentMode) == 'undefined' ||
+                typeof(document.documentMode) === 'undefined' ||
                 document.documentMode > 7)) {
             // The HTML5 way of handling DHTML history...
             window.onhashchange = function () {
                 var hash = self.getHash();
-                if (hash == self.currentHash) {
+                if (hash === self.currentHash) {
                     return;
                 }
                 self.fireEvent('hash-changed', hash);
@@ -117,13 +117,13 @@ var HashListener = new Class({
                     this.iframe.contentWindow.document;
             ie_state = doc.body.innerHTML;
 
-            if (ie_state!=hash) {
+            if (ie_state !== hash) {
                 this.setHash(ie_state);
                 hash = ie_state;
             }
         }
 
-        if (this.currentLocation == hash) {
+        if (this.currentLocation === hash) {
             return;
         }
 
