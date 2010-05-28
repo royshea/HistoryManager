@@ -68,18 +68,18 @@ var HashListener = new Class({
 	initializeHistoryIframe: function () {
 		var hash = this.getHash(), doc;
 		this.iframe = new IFrame({
-			src		: this.options.blank_page,
-			styles	: {
-				'position'	: 'absolute',
-				'top'		: 0,
-				'left'		: 0,
-				'width'		: '1px',
-				'height'	: '1px',
+			src: this.options.blank_page,
+			styles: {
+				'position': 'absolute',
+				'top': 0,
+				'left': 0,
+				'width': '1px',
+				'height': '1px',
 				'visibility': 'hidden'
 			}
 		}).inject(document.body);
 
-		doc	= (this.iframe.contentDocument) ? this.iframe.contentDocument : this.iframe.contentWindow.document;
+		doc = (this.iframe.contentDocument) ? this.iframe.contentDocument : this.iframe.contentWindow.document;
 		doc.open();
 		doc.write('<html><body id="state">' + hash + '</body></html>');
 		doc.close();
@@ -93,7 +93,7 @@ var HashListener = new Class({
 		}
 
 		if (this.useIframe) {
-			doc	= (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
+			doc = (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
 			ie_state = doc.body.innerHTML;
 
 			if (ie_state!=hash) {
@@ -127,7 +127,7 @@ var HashListener = new Class({
 		}
 	},
 	setIframeHash: function (newHash) {
-		var doc	= (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
+		var doc = (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
 		doc.open();
 		doc.write('<html><body id="state">' + newHash + '</body></html>');
 		doc.close();
