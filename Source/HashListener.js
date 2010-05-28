@@ -1,6 +1,7 @@
 /*
 ---
-description: A Class that provides a cross-browser history-management functionaility, using the browser hash to store the application's state
+description: A Class that provides a cross-browser history-management
+functionaility, using the browser hash to store the application's state
 
 license: MIT-style
 
@@ -27,7 +28,10 @@ var HashListener = new Class({
     currentHash: '',
     firstLoad: true,
     handle: false,
-    useIframe: (Browser.Engine.trident && (typeof(document.documentMode)=='undefined' || document.documentMode < 8)),
+    useIframe: (Browser.Engine.trident && (
+            typeof(document.documentMode)=='undefined' ||
+            document.documentMode < 8)
+    ),
     ignoreLocationChange: false,
     initialize: function (options) {
         var self=this;
@@ -40,30 +44,29 @@ var HashListener = new Class({
         }
 
 
-         // IE8 in IE7 mode defines window.onhashchange, but never fires it...
-        if (
-            window.onhashchange &&
-            (typeof(document.documentMode) == 'undefined' || document.documentMode > 7)
-           ) {
-                // The HTML5 way of handling DHTML history...
-                window.onhashchange = function () {
-                    var hash = self.getHash();
-                    if (hash == self.currentHash) {
-                        return;
-                    }
-                    self.fireEvent('hash-changed',hash);
-                };
-        } else  {
-            if (this.useIframe) {
-                this.initializeHistoryIframe();
-            }
+        // IE8 in IE7 mode defines window.onhashchange, but never fires it...
+        if (window.onhashchange && (
+                typeof(document.documentMode) == 'undefined' ||
+                document.documentMode > 7)) {
+            // The HTML5 way of handling DHTML history...
+            window.onhashchange = function () {
+                var hash = self.getHash();
+                if (hash == self.currentHash) {
+                    return;
+                }
+                self.fireEvent('hash-changed',hash);
+            };
+        } else if (this.useIframe) {
+            this.initializeHistoryIframe();
         }
 
         window.addEvent('unload', function (event) {
             self.firstLoad = null;
         });
 
-        if (this.options.start) this.start();
+        if (this.options.start) {
+            this.start();
+        }
     },
     initializeHistoryIframe: function () {
         var hash = this.getHash(), doc;
@@ -79,7 +82,9 @@ var HashListener = new Class({
             }
         }).inject(document.body);
 
-        doc = (this.iframe.contentDocument) ? this.iframe.contentDocument : this.iframe.contentWindow.document;
+        doc = (this.iframe.contentDocument) ?
+                this.iframe.contentDocument :
+                this.iframe.contentWindow.document;
         doc.open();
         doc.write('<html><body id="state">' + hash + '</body></html>');
         doc.close();
@@ -93,7 +98,9 @@ var HashListener = new Class({
         }
 
         if (this.useIframe) {
-            doc = (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
+            doc = (this.iframe.contentDocument) ?
+                    this.iframe.contentDocumnet :
+                    this.iframe.contentWindow.document;
             ie_state = doc.body.innerHTML;
 
             if (ie_state!=hash) {
@@ -120,14 +127,16 @@ var HashListener = new Class({
         if (Browser.Engine.gecko) {
             m = /#(.*)$/.exec(window.location.href);
             return m && m[1] ? m[1] : '';
-        }else if (Browser.Engine.webkit) {
+        } else if (Browser.Engine.webkit) {
             return decodeURI(window.location.hash.substr(1));
-        }else{
+        } else {
             return window.location.hash.substr(1);
         }
     },
     setIframeHash: function (newHash) {
-        var doc = (this.iframe.contentDocument) ? this.iframe.contentDocumnet : this.iframe.contentWindow.document;
+        var doc = (this.iframe.contentDocument) ?
+                this.iframe.contentDocumnet :
+                this.iframe.contentWindow.document;
         doc.open();
         doc.write('<html><body id="state">' + newHash + '</body></html>');
         doc.close();
@@ -135,11 +144,13 @@ var HashListener = new Class({
     },
     updateHash: function (newHash) {
         if ($type(document.id(newHash))) {
-            this.debug_msg(
-                "Exception: History locations can not have the same value as _any_ IDs that might be in the document,"
-                + " due to a bug in IE; please ask the developer to choose a history location that does not match any HTML"
-                + " IDs in this document. The following ID is already taken and cannot be a location: "
-                + newLocation
+            this.debug_msg("Exception: History locations can not have " +
+                    "the same value as _any_ IDs that might be in the " +
+                    "document, due to a bug in IE; please ask the " +
+                    "developer to choose a history location that does " +
+                    "not match any HTML IDs in this document. The " +
+                    "following ID is already taken and cannot be a " +
+                    "location: " + newLocation
             );
         }
 
