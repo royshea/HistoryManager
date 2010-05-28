@@ -19,20 +19,30 @@ provides: [HashListener]
 */
 
 var HashListener = new Class({
+
     Implements: [Options,Events],
+
     options: {
         blank_page: 'blank.html',
         start: false
     },
+
     iframe: null,
+
     currentHash: '',
+
     firstLoad: true,
+
     handle: false,
+
     useIframe: (Browser.Engine.trident && (
             typeof(document.documentMode)=='undefined' ||
             document.documentMode < 8)
     ),
+
     ignoreLocationChange: false,
+
+
     initialize: function (options) {
         var self=this;
 
@@ -68,6 +78,8 @@ var HashListener = new Class({
             this.start();
         }
     },
+
+
     initializeHistoryIframe: function () {
         var hash = this.getHash(), doc;
         this.iframe = new IFrame({
@@ -90,6 +102,8 @@ var HashListener = new Class({
         doc.close();
         return;
     },
+
+
     checkHash: function () {
         var hash = this.getHash(), ie_state, doc;
         if (this.ignoreLocationChange) {
@@ -117,11 +131,15 @@ var HashListener = new Class({
 
         this.fireEvent('hash-changed',hash);
     },
+
+
     setHash: function (newHash) {
         window.location.hash = this.currentLocation = newHash;
 
         this.fireEvent('hash-changed',newHash);
     },
+
+
     getHash: function () {
         var m;
         if (Browser.Engine.gecko) {
@@ -133,6 +151,8 @@ var HashListener = new Class({
             return window.location.hash.substr(1);
         }
     },
+
+
     setIframeHash: function (newHash) {
         var doc = (this.iframe.contentDocument) ?
                 this.iframe.contentDocumnet :
@@ -142,6 +162,8 @@ var HashListener = new Class({
         doc.close();
 
     },
+
+
     updateHash: function (newHash) {
         if ($type(document.id(newHash))) {
             this.debug_msg("Exception: History locations can not have " +
@@ -159,9 +181,13 @@ var HashListener = new Class({
         if (this.useIframe) this.setIframeHash(newHash);
         else this.setHash(newHash);
     },
+
+
     start: function () {
         this.handle = this.checkHash.periodical(100, this);
     },
+
+
     stop: function () {
         $clear(this.handle);
     }
