@@ -145,15 +145,7 @@ var HashListener = new Class({
 
 
     getHash: function () {
-        var m;
-        if (Browser.Engine.gecko) {
-            m = /#(.*)$/.exec(window.location.href);
-            return m && m[1] ? m[1] : '';
-        } else if (Browser.Engine.webkit) {
-            return decodeURI(window.location.hash.substr(1));
-        } else {
-            return window.location.hash.substr(1);
-        }
+        return decodeURI(window.location.hash.substr(1));
     },
 
 
