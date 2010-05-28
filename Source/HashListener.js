@@ -176,7 +176,7 @@ var HashListener = new Class({
                     "developer to choose a history location that does " +
                     "not match any HTML IDs in this document. The " +
                     "following ID is already taken and cannot be a " +
-                    "location: " + newLocation
+                    "location: " + newHash
             );
         }
 
