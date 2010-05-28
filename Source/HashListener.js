@@ -85,7 +85,7 @@ var HashListener = new Class({
 
 
     initializeHistoryIframe: function () {
-        var hash = this.getHash(), doc;
+        var hash = this.getHash();
         this.iframe = new IFrame({
             src: this.options.blank_page,
             styles: {
@@ -97,14 +97,7 @@ var HashListener = new Class({
                 'visibility': 'hidden'
             }
         }).inject(document.body);
-
-        doc = (this.iframe.contentDocument) ?
-                this.iframe.contentDocument :
-                this.iframe.contentWindow.document;
-        doc.open();
-        doc.write('<html><body id="state">' + hash + '</body></html>');
-        doc.close();
-        return;
+        this.writeIframe(hash);
     },
 
 
@@ -150,13 +143,18 @@ var HashListener = new Class({
 
 
     setIframeHash: function (newHash) {
-        var doc = (this.iframe.contentDocument) ?
+        this.writeIframe(newHash);
+    },
+
+
+    writeIframe: function (data) {
+        var doc;
+        doc = (this.iframe.contentDocument) ?
                 this.iframe.contentDocumnet :
                 this.iframe.contentWindow.document;
         doc.open();
-        doc.write('<html><body id="state">' + newHash + '</body></html>');
+        doc.write('<html><body id="state">' + data + '</body></html>');
         doc.close();
-
     },
 
 
