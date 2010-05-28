@@ -31,15 +31,15 @@ var HashListener = new Class({
 	ignoreLocationChange : false,
 	initialize : function(options){
 		var self=this;
-			
+
 		this.setOptions(options);
-		
+
 		// Disable Opera's fast back/forward navigation mode
 		if (Browser.Engine.presto && window.history.navigationMode) {
 			window.history.navigationMode = 'compatible';
 		}
 
-		
+
 		 // IE8 in IE7 mode defines window.onhashchange, but never fires it...
         if (
 			window.onhashchange &&
@@ -56,24 +56,24 @@ var HashListener = new Class({
         } else  {
 			if (this.useIframe){
 				this.initializeHistoryIframe();
-			} 
-        } 
-		
+			}
+        }
+
 		window.addEvent('unload', function(event) {
 			self.firstLoad = null;
 		});
-		
+
 		if (this.options.start) this.start();
 	},
 	initializeHistoryIframe : function(){
 		var hash = this.getHash(), doc;
 		this.iframe = new IFrame({
 			src		: this.options.blank_page,
-			styles	: { 
+			styles	: {
 				'position'	: 'absolute',
 				'top'		: 0,
 				'left'		: 0,
-				'width'		: '1px', 
+				'width'		: '1px',
 				'height'	: '1px',
 				'visibility': 'hidden'
 			}
@@ -95,24 +95,24 @@ var HashListener = new Class({
 		if (this.useIframe){
 			doc	= (this.iframe.contentDocument) ? this.iframe.contentDocumnet  : this.iframe.contentWindow.document;
 			ie_state = doc.body.innerHTML;
-			
+
 			if (ie_state!=hash){
 				this.setHash(ie_state);
 				hash = ie_state;
-			} 
-		}		
-		
+			}
+		}
+
 		if (this.currentLocation == hash) {
 			return;
 		}
-		
+
 		this.currentLocation = hash;
-		
+
 		this.fireEvent('hash-changed',hash);
 	},
 	setHash : function(newHash){
 		window.location.hash = this.currentLocation = newHash;
-		
+
 		this.fireEvent('hash-changed',newHash);
 	},
 	getHash : function(){
@@ -131,7 +131,7 @@ var HashListener = new Class({
 		doc.open();
 		doc.write('<html><body id="state">' + newHash + '</body></html>');
 		doc.close();
-		
+
 	},
 	updateHash : function (newHash){
 		if ($type(document.id(newHash))) {
@@ -142,9 +142,9 @@ var HashListener = new Class({
 				+ newLocation
 			);
 		}
-		
+
 		this.ignoreLocationChange = true;
-		
+
 		if (this.useIframe) this.setIframeHash(newHash);
 		else this.setHash(newHash);
 	},
