@@ -18,6 +18,10 @@ provides: [HashListener]
 ...
 */
 
+/*globals $clear, $type, Browser, Class, Events, IFrame, Options,
+ document, window
+*/
+
 var HashListener = new Class({
 
     Implements: [Options, Events],
